@@ -1,10 +1,10 @@
-class Department {
+abstract class Department {
     // public name: string;
     // private id: string;
     static fiscalYear = 2023;
     protected employees: string[] = [];
 
-    constructor (private readonly id: string, public name: string) { // shorthand init
+    constructor (protected readonly id: string, public name: string) { // shorthand init
         // this.name = n;
         // this.id = id;
     }
@@ -13,10 +13,7 @@ class Department {
         return { name: name }
     }
 
-    describe() {
-        // console.log('Description: ', this.name);
-        console.log(`Description: ${this.id} ${this.name}`);
-    }
+    abstract describe(this: Department): void
 
     addEmploye(employe: string) {
         this.employees.push(employe);
@@ -34,6 +31,10 @@ class ITDepartment extends Department {
         super(id, 'IT');
         this.admins = admins
     }
+
+    describe() {
+        console.log('IT department ID: ', this.id);
+    }
 }
 
 class Accounting extends Department {
@@ -43,6 +44,10 @@ class Accounting extends Department {
             return this.lastReport;
         }
         throw new Error('No repost found ...');
+    }
+
+    describe() {
+        console.log('Accounting department ID: ', this.id);
     }
 
     set mostRecentReport(value: string) {
@@ -112,10 +117,10 @@ const accountDepartment = new Accounting('D2', []);
 
 accountDepartment.mostRecentReport = 'Monthly reposrt';
 
-accountDepartment.addReport('test');
 console.log(accountDepartment.mostRecentReport);
-
-accountDepartment.printReports();
+// accountDepartment.addReport('test');
+// accountDepartment.printReports();
+accountDepartment.describe();
 
 accountDepartment.addEmploye('Ravi');
 accountDepartment.addEmploye('Verma');
