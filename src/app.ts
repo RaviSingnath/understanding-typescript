@@ -1,7 +1,7 @@
-class Deparment {
+class Department {
     // public name: string;
     // private id: string;
-    private employees: string[] = [];
+    protected employees: string[] = [];
 
     constructor (private readonly id: string, public name: string) { // shorthand init
         // this.name = n;
@@ -23,17 +23,69 @@ class Deparment {
     }
 }
 
-const deparment = new Deparment('D1', 'Accounting');
+class ITDepartment extends Department {
+    admins: string[];
+    constructor(id: string, admins: string[]) {
+        super(id, 'IT');
+        this.admins = admins
+    }
+}
 
-console.log('Deparment Object: ', deparment);
+class Accounting extends Department {
+    constructor(id: string, private reports: string[]) {
+        super(id, 'Accounting');
+    }
 
-deparment.describe();
+    addEmploye(name: string) {
+        if(name === 'Ravi') {
+            return;
+        }
+        this.employees.push(name);
+    }
 
-deparment.addEmploye('Ravi');
-deparment.addEmploye('Verma');
+    addReport(text: string) {
+        this.reports.push(text);
+    }
+
+    printReports() {
+        console.log(this.reports);
+    }
+}
+
+// const department = new Department('D1', 'Accounting');
+// department.describe();
+
+// department.addEmploye('Ravi');
+// department.addEmploye('Verma');
+// // department.employees[2] = "Vivu"; It's a private
+// department.employeesInfo();
+
+// const departmentCopy = { name: 'DUMMY', describe: department.describe };
+// departmentCopy.describe();
+
+//
+
+const ITDep = new ITDepartment('D1', ['Ravi']);
+
+console.log('Deparment Object: ', ITDep);
+
+ITDep.describe();
+
+ITDep.addEmploye('Ravi');
+ITDep.addEmploye('Verma');
 // deparment.employees[2] = "Vivu"; It's a private
 
-deparment.employeesInfo();
+ITDep.employeesInfo();
 
-// const deparmentCopy = { name: 'DUMMY', describe: deparment.describe };
-// deparmentCopy.describe();
+//
+
+const accountDepartment = new Accounting('D2', []);
+
+accountDepartment.addReport('test');
+
+accountDepartment.printReports();
+
+accountDepartment.addEmploye('Ravi');
+accountDepartment.addEmploye('Verma');
+
+console.log(accountDepartment);
